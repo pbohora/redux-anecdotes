@@ -1,23 +1,20 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { addVote } from '../reducers/anecdoteReducer'
-import {
-  setNotification,
-  removeNotification
-} from '../reducers/notificationReducer'
+import { setNotification } from '../reducers/notificationReducer'
 
 const AnecdoteList = ({
   anecdotes,
   filteredAnecdotes,
   setNotification,
-  removeNotification,
   addVote
 }) => {
   const vote = id => {
     const anecdote = anecdotes.find(anecdote => anecdote.id === id)
-    setNotification(`you voted ${anecdote.content}`)
-    setTimeout(() => removeNotification(), 5000)
-    addVote(id)
+    const changedAnecdote = { ...anecdote, votes: anecdote.votes + 1 }
+    setNotification(`you voted ${anecdote.content}`, 3)
+    //setTimeout(() => removeNotification(), 5000)
+    addVote(id, changedAnecdote)
   }
 
   anecdotes.sort((a, b) => b.votes - a.votes)
@@ -53,18 +50,10 @@ const filteredAnecdotes = ({ anecdotes, filter }) =>
       anecdote.content.toLowerCase().includes(filter.toLowerCase().trim())
   )
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setNotification: value => {
-      dispatch(setNotification(value))
-    },
-    removeNotification: value => {
-      dispatch(removeNotification())
-    },
-    addVote: value => {
-      dispatch(addVote(value))
-    }
-  }
+const mapDispatchToProps = {
+  setNotification,
+
+  addVote
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AnecdoteList)
