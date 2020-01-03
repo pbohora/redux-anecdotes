@@ -7,15 +7,14 @@ import Filter from './components/Filter'
 const App = props => {
   return (
     <div>
-      {props.store.getState().notification !== null && (
-        <Notification store={props.store} />
-      )}
-      <Filter store={props.store} />
-      {console.log(props.store.getState())}
-      <h2>Anecdotes</h2>
-      <AnecdoteList store={props.store} />
+      <Notification />
 
-      <AnecdoteForm store={props.store} />
+      <Filter />
+
+      <h2>Anecdotes</h2>
+      <AnecdoteList />
+
+      <AnecdoteForm />
     </div>
   )
 }
